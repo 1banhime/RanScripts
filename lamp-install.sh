@@ -11,3 +11,5 @@ echo Apache Status:
 sudo systemctl status apache2
 echo MySQL Status:
 sudo systemctl status mysql
+
+#ai kotoba no 1banhime
