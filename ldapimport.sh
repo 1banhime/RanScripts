@@ -19,7 +19,7 @@ if [ ! -f "$1" ]; then
 fi
 
 while IFS="," read -r name uname passwd objclass gid; do #assigns the different fields in the CSV to variables
-	hashpass=sudo slappasswd $passwd
+	hashpass=slappasswd $passwd
 	#Creates a string for the ldapadd command to use
 	ldif=$(cat <<EOF
 		dn: uid=${username},${DN}
