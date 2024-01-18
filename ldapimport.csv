@@ -1,0 +1,4 @@
+Name,Username,Password,ObjectClass,GID
+John Doe,johndoe,password123,inetOrgPerson,1001
+Jane Smith,janesmith,securePwd456,inetOrgPerson,1002
+Bob Johnson,bobjohnson,secretPass789,inetOrgPerson,1003
