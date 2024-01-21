@@ -7,7 +7,7 @@ DN="" #your directories DN e.g DC=kirakira,DC=com
 admin="" #your admin accounts DN e.g CN=1banhime,DC=kirakira,DC=com
 pwd="" #the password for your admin account
 serv="" #your server here e.g ldap://1banhime
-if [ "$#" != 1 ]; then
+if [ "$#" -ne 1 ]; then
     echo "INCORRECT # OF ARGUMENTS" >&2 #Exits script if incorrect number of arguments 
     exit 1
 fi
@@ -19,7 +19,7 @@ if [ ! -f "$1" ]; then
 fi
 
 while IFS="," read -r name uname passwd objclass gid; do #assigns the different fields in the CSV to variables
-	hashpass=slappasswd $passwd
+	hashpass=$(slappasswd -s $passwd)
 	#Creates a string for the ldapadd command to use
 	ldif=$(cat <<EOF
 		dn: uid=${username},${DN}
@@ -30,8 +30,8 @@ while IFS="," read -r name uname passwd objclass gid; do #assigns the different 
 		userPassword: ${hashpass}
 		EOF
 		)
-		echo ldif | ldapadd -x -D $admin -w $pwd -H $serv | tee -a $logfile
-		if [ $? = 0 ]; then
+		echo "$ldif" | ldapadd -x -D $admin -w $pwd -H $serv | tee -a $logfile
+		if [ $? -eq 0 ]; then
 			echo $uname added succesfully
 		else
 			echo could not add $uname
