@@ -22,13 +22,15 @@ while IFS="," read -r name uname passwd objclass gid; do #assigns the different 
 	hashpass=$(slappasswd -s $passwd)
 	#Creates a string for the ldapadd command to use
 	ldif=$(cat <<EOF
-		dn: uid=${username},${DN}
-		objectClass: ${objclass}
-		uid: ${username}
-		gid: ${gid}
-		cn: ${name}
-		userPassword: ${hashpass}
-		EOF
+dn: uid=${uname},${DN}
+objectClass: ${objclass}
+uid: ${uname}
+gid: ${gid}
+cn: ${uname}
+sn: ${uname}
+givenName: ${name}
+userPassword: ${hashpass}
+EOF
 		)
 		echo "$ldif" | ldapadd -x -D $admin -w $pwd -H $serv | tee -a $logfile
 		if [ $? -eq 0 ]; then
