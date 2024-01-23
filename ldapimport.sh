@@ -18,14 +18,13 @@ if [ ! -f "$1" ]; then
     exit 1
 fi
 
-while IFS="," read -r name uname passwd objclass gid; do #assigns the different fields in the CSV to variables
+while IFS="," read -r name uname passwd objclass; do #assigns the different fields in the CSV to variables
 	hashpass=$(slappasswd -s $passwd) #hash the pass 
 	#Creates a string for the ldapadd command to use
 	ldif=$(cat <<EOF
 dn: uid=${uname},${DN}
 objectClass: ${objclass}
 uid: ${uname}
-gidNumber: ${gid}
 cn: ${uname}
 sn: ${uname}
 givenName: ${name}
