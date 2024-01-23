@@ -19,13 +19,13 @@ if [ ! -f "$1" ]; then
 fi
 
 while IFS="," read -r name uname passwd objclass gid; do #assigns the different fields in the CSV to variables
-	hashpass=$(slappasswd -s $passwd)
+	hashpass=$(slappasswd -s $passwd) #hash the pass 
 	#Creates a string for the ldapadd command to use
 	ldif=$(cat <<EOF
 dn: uid=${uname},${DN}
 objectClass: ${objclass}
 uid: ${uname}
-gid: ${gid}
+gidNumber: ${gid}
 cn: ${uname}
 sn: ${uname}
 givenName: ${name}
@@ -33,7 +33,7 @@ userPassword: ${hashpass}
 EOF
 		)
 		echo "$ldif" | ldapadd -x -D $admin -w $pwd -H $serv | tee -a $logfile
-		if [ $? -eq 0 ]; then
+		if [ "$?" -eq 0 ]; then
 			echo $uname added succesfully
 		else
 			echo could not add $uname
