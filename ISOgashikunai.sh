@@ -28,3 +28,5 @@ sudo mount -o loop $path /mnt
 echo "Rebooting your system now :3"
 
 reboot
+
+#AI KOTOBA NO 1BANHIME
